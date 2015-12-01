@@ -1,0 +1,3 @@
+Tests: python-glance glance-daemons
+Depends: python-glance, glance-api, glance-registry
+Restrictions: needs-root

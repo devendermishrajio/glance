@@ -1,0 +1,5 @@
+sql_conn.patch
+0001-Allow-ramdisk_id-kernel_id-to-be-null-on-schema.patch
+skip-glance-search-tests.patch
+fix-test-artifacts-plugin-loader.patch
+skip-online-tests.patch

@@ -1,0 +1,45 @@
+From 4b269775964f75300d3af56a4c57234d54a32e94 Mon Sep 17 00:00:00 2001
+From: Jorge Niedbalski <jorge.niedbalski@canonical.com>
+Date: Wed, 22 Apr 2015 12:54:29 -0300
+Subject: [PATCH] Allow ramdisk_id, kernel_id to be null on schema
+
+Since is possible to create images with no
+ramdisk_id, kernel_id parameters on glance v1,
+then the schema-image.json needs to be modified to
+allow null, string values for both attributes
+and prevent LP #1447193 to happen with a glance v2
+client.
+
+APIImpact
+
+Closes-Bug: #1447215
+Related-Bug: #1447193
+
+Change-Id: I645c797553ccaa84062f9ad28f2349ae738a0c96
+Signed-off-by: Jorge Niedbalski <jorge.niedbalski@canonical.com>
+(cherry picked from commit 82c63b1df4399db22dfd71e3326a6bfc1b372a9c)
+---
+ etc/schema-image.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/etc/schema-image.json b/etc/schema-image.json
+index 5aafd6b..d9f433b 100644
+--- a/etc/schema-image.json
++++ b/etc/schema-image.json
+@@ -1,11 +1,11 @@
+ {
+     "kernel_id": {
+-        "type": "string",
++        "type": ["null", "string"],
+         "pattern": "^([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}$",
+         "description": "ID of image stored in Glance that should be used as the kernel when booting an AMI-style image."
+     },
+     "ramdisk_id": {
+-        "type": "string",
++        "type": ["null", "string"],
+         "pattern": "^([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}$",
+         "description": "ID of image stored in Glance that should be used as the ramdisk when booting an AMI-style image."
+     },
+-- 
+2.1.4
+
