@@ -1,0 +1,55 @@
+From 5647d26008f5a1c4db755f2a36cc63fc87cd68bb Mon Sep 17 00:00:00 2001
+From: yongiman <seungjin77.han@samsung.com>
+Date: Sat, 4 Apr 2015 12:03:43 +0900
+Subject: [PATCH] Fixed glance.tests.unit.test_artifacts_plugin_loader
+ unit-test
+
+The test code gets full path of module when _setup_loader() calls.
+Getting full path of mudule could occur test failure
+in indivisual environment.
+Made the test glance.tests.unit.test_artifacts_plugin_loader
+independent of working directory of current user.
+Closes-Bug: #1439951
+Change-Id: I05015cc84aeb48770177c9e26e91cd49aa327657
+(cherry picked from commit 2fbe06c36c0bd645499f2324796f9617fd3056ac)
+---
+ glance/tests/unit/test_artifacts_plugin_loader.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/glance/tests/unit/test_artifacts_plugin_loader.py b/glance/tests/unit/test_artifacts_plugin_loader.py
+index 6c3cfcd..73d07d0 100644
+--- a/glance/tests/unit/test_artifacts_plugin_loader.py
++++ b/glance/tests/unit/test_artifacts_plugin_loader.py
+@@ -60,7 +60,8 @@ class TestArtifactsLoader(utils.BaseTestCase):
+         self.assertEqual(art1.MyArtifact,
+                          self.loader.get_class_by_endpoint('myartifact'))
+         # entrypoint = [a, list]
+-        path = os.path.splitext(__file__)[0].replace('/', '.')
++        path = os.path.splitext(__file__)[0][__file__.rfind(
++            'glance'):].replace('/', '.')
+         self._setup_loader([
+             'MyArtifact=%s:MyArtifactOk' % path,
+             'MyArtifact=%s.v2.artifact:MyArtifact' % self.path,
+@@ -115,7 +116,8 @@ class TestArtifactsLoader(utils.BaseTestCase):
+         self.assertEqual('1.0.1', art_type.metadata.type_version)
+         # now try to add duplicate artifact with the same type_name and
+         # type_version as already exists
+-        bad_art_path = os.path.splitext(__file__)[0].replace('/', '.')
++        bad_art_path = os.path.splitext(__file__)[0][__file__.rfind(
++            'glance'):].replace('/', '.')
+         self.assertEqual(art_type.metadata.type_version,
+                          MyArtifactDuplicate.metadata.type_version)
+         self.assertEqual(art_type.metadata.type_name,
+@@ -148,7 +150,8 @@ class TestArtifactsLoader(utils.BaseTestCase):
+         self.assertRaises(exception.ArtifactLoadError,
+                           self._setup_loader,
+                           ['MyArtifact=%s.v1.artifact:MyArtifact' % self.path])
+-        path = os.path.splitext(__file__)[0].replace('/', '.')
++        path = os.path.splitext(__file__)[0][__file__.rfind(
++            'glance'):].replace('/', '.')
+         self._setup_loader(['MyArtifact=%s:MyArtifactOk' % path])
+         # make sure that plugin_map has the expected plugin
+         self.assertEqual(MyArtifactOk,
+-- 
+2.1.4
+

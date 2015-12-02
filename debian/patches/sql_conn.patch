@@ -1,0 +1,38 @@
+--- a/etc/glance-registry.conf
++++ b/etc/glance-registry.conf
+@@ -148,14 +148,14 @@ qpid_tcp_nodelay = True
+ 
+ [database]
+ # The file name to use with SQLite (string value)
+-#sqlite_db = glance.sqlite
++sqlite_db = /var/lib/glance/glance.sqlite
+ 
+ # If True, SQLite uses synchronous mode (boolean value)
+ #sqlite_synchronous = True
+ 
+ # The backend to use for db (string value)
+ # Deprecated group/name - [DEFAULT]/db_backend
+-#backend = sqlalchemy
++backend = sqlalchemy
+ 
+ # The SQLAlchemy connection string used to connect to the
+ # database (string value)
+--- a/etc/glance-api.conf
++++ b/etc/glance-api.conf
+@@ -322,14 +322,14 @@ image_cache_dir = /var/lib/glance/image-
+ 
+ [database]
+ # The file name to use with SQLite (string value)
+-#sqlite_db = oslo.sqlite
++sqlite_db = /var/lib/glance/glance.sqlite
+ 
+ # If True, SQLite uses synchronous mode (boolean value)
+ #sqlite_synchronous = True
+ 
+ # The backend to use for db (string value)
+ # Deprecated group/name - [DEFAULT]/db_backend
+-#backend = sqlalchemy
++backend = sqlalchemy
+ 
+ # The SQLAlchemy connection string used to connect to the
+ # database (string value)

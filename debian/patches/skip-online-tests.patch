@@ -1,0 +1,74 @@
+Description: Skip tests that require online access to resources
+Author: James Page <james.page@ubuntu.com>
+Forwarded: not-needed
+
+--- a/glance/tests/unit/common/scripts/test_scripts_utils.py
++++ b/glance/tests/unit/common/scripts/test_scripts_utils.py
+@@ -15,6 +15,7 @@
+ import urllib2
+ 
+ import mock
++import testtools
+ 
+ from glance.common import exception
+ from glance.common.scripts import utils as script_utils
+@@ -135,6 +136,7 @@
+         self.assertRaises(urllib2.URLError,
+                           script_utils.validate_location_uri, location)
+ 
++    @testtools.skip('Requires online access, skipping in Ubuntu buildds')
+     def test_get_image_data_http(self):
+         uri = "http://example.com"
+         response = urllib2.urlopen(uri)
+@@ -142,6 +144,7 @@
+         self.assertEqual(expected,
+                          script_utils.get_image_data_iter(uri).read())
+ 
++    @testtools.skip('Requires online access, skipping in Ubuntu buildds')
+     def test_get_image_data_https(self):
+         uri = "https://example.com"
+         response = urllib2.urlopen(uri)
+--- a/glance/tests/unit/common/scripts/image_import/test_main.py
++++ b/glance/tests/unit/common/scripts/image_import/test_main.py
+@@ -15,6 +15,7 @@
+ import urllib2
+ 
+ import mock
++import testtools
+ 
+ from glance.common.scripts.image_import import main as image_import_script
+ import glance.tests.utils as test_utils
+@@ -80,6 +81,7 @@
+                                                           image_properties,
+                                                           None))
+ 
++    @testtools.skip('Requires online access, skipping in Ubuntu buildds')
+     def test_set_image_data_http(self):
+         uri = 'http://www.example.com'
+         image = mock.Mock()
+--- a/glance/tests/unit/v1/test_api.py
++++ b/glance/tests/unit/v1/test_api.py
+@@ -24,6 +24,7 @@
+ 
+ import glance_store as store
+ import mock
++import testtools
+ from oslo.serialization import jsonutils
+ from oslo_config import cfg
+ from oslo_utils import timeutils
+@@ -972,6 +973,7 @@
+             res = req.get_response(self.api)
+             self.assertEqual(201, res.status_int)
+ 
++    @testtools.skip('Requires online access, skipping in Ubuntu buildds')
+     def test_upload_image_http_nonexistent_location_url(self):
+         # Ensure HTTP 404 response returned when try to upload
+         # image from non-existent http location URL.
+@@ -1099,6 +1101,7 @@
+         res = req.get_response(self.api)
+         self.assertEqual(400, res.status_int)
+ 
++    @testtools.skip('Requires online access, skipping in Ubuntu buildds')
+     def test_create_image_with_nonexistent_location_url(self):
+         # Ensure HTTP 404 response returned when try to create
+         # image with non-existent http location URL.
