@@ -329,6 +329,9 @@ class ImmutableImageProxy(object):
         message = _("You are not permitted to upload data for this image.")
         raise exception.Forbidden(message)
 
+    def get_link(self, *args, **kwargs):
+        return self.base.get_link(*args, **kwargs)
+
 
 class ImmutableMemberProxy(object):
     def __init__(self, base):

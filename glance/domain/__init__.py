@@ -282,6 +282,8 @@ class Image(object):
     def set_data(self, data, size=None):
         raise NotImplementedError()
 
+    def get_link(self, *args, **kwargs):
+        raise NotImplementedError()
 
 class ExtraProperties(collections.MutableMapping, dict):
 

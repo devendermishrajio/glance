@@ -431,6 +431,13 @@ class ImageProxy(NotificationProxy, domain_proxy.Image):
             self.send_notification('image.upload', self.repo)
             self.send_notification('image.activate', self.repo)
 
+    def get_link(self):
+	    # Due to the need of evaluating subsequent proxies, this one
+        # should return a generator, the call should be done before
+        # generator creation
+        link = self.repo.get_link()
+        return link
+
 
 class ImageFactoryProxy(NotificationFactoryProxy, domain_proxy.ImageFactory):
     def get_super_class(self):

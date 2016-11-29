@@ -171,6 +171,8 @@ class Image(object):
     def get_member_repo(self):
         return self.helper.proxy(self.base.get_member_repo())
 
+    def get_link(self, *args, **kwargs):
+        return self.base.get_link(*args, **kwargs)
 
 class Task(object):
     def __init__(self, base):

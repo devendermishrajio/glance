@@ -15,6 +15,7 @@
 
 from glance.api.v2 import image_actions
 from glance.api.v2 import image_data
+from glance.api.v2 import image_links
 from glance.api.v2 import image_members
 from glance.api.v2 import image_tags
 from glance.api.v2 import images
@@ -485,6 +486,18 @@ class API(wsgi.Router):
                        allowed_methods='GET, PUT',
                        conditions={'method': ['POST', 'DELETE', 'PATCH',
                                               'HEAD']})
+
+        image_links_resource = image_links.create_resource()
+        mapper.connect('/images/{image_id}/link',
+                       controller=image_links_resource,
+                       action='get',
+                       conditions={'method':['GET']})
+        mapper.connect('/images/{image_id}/link',
+                       controller=reject_method_resource,
+                       action='reject',
+                       allowed_methods='GET',
+                       conditions={'method': ['PUT', 'POST', 'DELETE',
+                                              'PATCH', 'HEAD']})
 
         image_tags_resource = image_tags.create_resource()
         mapper.connect('/images/{image_id}/tags/{tag_value}',

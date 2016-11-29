@@ -195,6 +195,10 @@ class ImageProxy(glance.domain.proxy.Image):
         self.policy.enforce(self.context, 'upload_image', self.target)
         return self.image.set_data(*args, **kwargs)
 
+    def get_link(self, *args, **kwargs):
+        self.policy.enforce(self.context, 'image_link', self.target)
+        return self.image.get_link(*args, **kwargs)
+
     def get_member_repo(self, **kwargs):
         member_repo = self.image.get_member_repo(**kwargs)
         return ImageMemberRepoProxy(member_repo, self.context, self.policy)

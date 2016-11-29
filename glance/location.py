@@ -409,6 +409,21 @@ class ImageProxy(glance.domain.proxy.Image):
                       'image %s but all have failed.') % self.image.image_id)
         raise err
 
+    def get_link(self):
+        if not self.image.locations:
+            raise store.NotFound(image=None)
+        err = None
+        for loc in self.image.locations:
+            try:
+                link = self.store_api.get_link_from_backend(loc['url'], context=self.context)
+                return link
+            except Exception as e:
+                LOG.warn(_('Get image_link %(id)s failed: %(err)s.')%{'id': self.image.image_id, 'err': utils.exception_to_str(e)})
+                err = e
+        #tried all the locations
+        LOG.error(_LE('Glance tried all active locations to get link for image %s but all have failed.') % self.image.image_id)
+        raise err
+
 
 class ImageMemberRepoProxy(glance.domain.proxy.Repo):
     def __init__(self, repo, image, context, store_api):
