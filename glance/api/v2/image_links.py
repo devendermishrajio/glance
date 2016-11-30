@@ -14,12 +14,10 @@
 #    under the License.
 import glance_store
 from oslo_log import log as logging
-from oslo_utils import excutils
 import webob.exc
 
 import glance.api.policy
 from glance.common import exception
-from glance.common import utils
 from glance.common import wsgi
 import glance.db
 import glance.gateway
